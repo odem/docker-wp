@@ -1,13 +1,13 @@
 #!/bin/bash
 
-ORGUNIT=dummy
-CNAME=dummy
+ORGUNIT=s29
+CNAME=www.dummy.me
 CERTOPTS="/C=DE/ST=HE/L=FFM/O=WP/OU=$ORGUNIT/CN=$CNAME"
 KEYOUT=nginx/selfsigned.key
 CRTOUT=nginx/selfsigned.crt
 mkdir -p nginx
 echo "CERT-Options: $CERTOPTS"
-if [[ ! -f /etc/nginx/ssl/selfsigned.crt ]]; then
+if [[ ! -f nginx/selfsigned.crt ]]; then
     echo "Generate key and certificate"
     openssl req -x509 -nodes -days 365 \
         -newkey rsa:2048 \
@@ -49,19 +49,22 @@ cat <<EOF > nginx/nginx-wp.conf
 server {
     listen 80 default_server;
     server_name _;
-    return 301 https://$host$request_uri;
+    return 301 https://www.\$host\$request_uri;
 }
 server {
     listen 443 ssl;
-    server_name hostname.intranet;
+    server_name hostname.me;
     ssl_certificate /etc/nginx/ssl/selfsigned.crt;
     ssl_certificate_key /etc/nginx/ssl/selfsigned.key;
     location / {
         proxy_pass http://hostname.local;
         proxy_set_header Host \$host;
         proxy_http_version 1.1;
-        # proxy_set_header Upgrade \$http_upgrade;
-        # proxy_set_header Connection "upgrade";
+	proxy_set_header Host \$http_host;
+	proxy_set_header X-Forwarded-Host \$http_host;
+	proxy_set_header X-Real-IP \$remote_addr;
+	proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+	proxy_set_header X-Forwarded-Proto \$scheme;
         access_log /var/log/nginx/access.log;
         error_log /var/log/nginx/error.log;
     }
@@ -71,6 +74,7 @@ EOF
 sudo systemctl stop nginx
 sudo rm -rf /etc/nginx/sites-enabled/default.conf
 sudo rm -rf /etc/nginx/sites-available/default.conf
+sudo rm -rf /etc/nginx/sites-available/wp.conf
 sudo cp nginx/nginx.conf /etc/nginx/nginx.conf
 sudo cp nginx/nginx-wp.conf /etc/nginx/sites-available/wp.conf
 sudo cp nginx/selfsigned.* /etc/nginx/ssl/
