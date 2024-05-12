@@ -1,11 +1,9 @@
 # Default targets
-.PHONY: default build start stop clean
+.PHONY: default build start stop
 default: start
 
 # Makefile setup
 SHELL:=/bin/bash
-IMAGENAME ?= wp
-CONTNAME ?= $(IMAGENAME)
 
 # Help
 usage:
@@ -15,12 +13,12 @@ usage:
 	@echo ""
 
 build: stop
-	docker build -t $(IMAGENAME) .
+	docker-compose build
+	[ -f .env ] || echo "Create .env file before starting"
 
 start: build
-	docker run --rm --name $(CONTNAME) $(IMAGENAME)
+	docker-compose up -d
+
 stop:
-	-docker container kill $(CONTNAME)
-clean: stop
-	-docker images rm $(IMAGENAME)
+	docker-compose down
 
