@@ -6,4 +6,5 @@
 
 /wordpress/.env
 /wordpress/.wordpress
+/wordpress/systemd-wp.conf
 
