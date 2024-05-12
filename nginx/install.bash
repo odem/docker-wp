@@ -63,6 +63,7 @@ server {
 }
 EOF
 
-cp nginx/nginx.conf /etc/nginx/nginx.conf
-cp nginx/nginx-wp.conf /etc/nginx/sites-available/wp.conf
+sudo cp nginx/nginx.conf /etc/nginx/nginx.conf
+sudo cp nginx/nginx-wp.conf /etc/nginx/sites-available/wp.conf
+sudo cp nginx/selfsigned.* /etc/nginx/ssl/
 
