@@ -63,7 +63,7 @@ server {
 }
 EOF
 
-systemctl stop nginx
+sudo systemctl stop nginx
 sudo rm -rf /etc/nginx/sites-enabled/default.conf
 sudo rm -rf /etc/nginx/sites-available/default.conf
 sudo cp nginx/nginx.conf /etc/nginx/nginx.conf
