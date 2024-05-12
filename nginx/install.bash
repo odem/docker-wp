@@ -63,11 +63,12 @@ server {
 }
 EOF
 
+systemctl stop nginx
+sudo rm -rf /etc/nginx/sites-enabled/default.conf
+sudo rm -rf /etc/nginx/sites-available/default.conf
 sudo cp nginx/nginx.conf /etc/nginx/nginx.conf
 sudo cp nginx/nginx-wp.conf /etc/nginx/sites-available/wp.conf
 sudo cp nginx/selfsigned.* /etc/nginx/ssl/
 sudo ln -s /etc/nginx/sites-available/wp.conf /etc/nginx/sites-enabled/wp.conf
-sudo rm -rf /etc/nginx/sites-enabled/default.conf
-sudo rm -rf /etc/nginx/sites-available/default.conf
 sudo systemctl restart nginx
 
