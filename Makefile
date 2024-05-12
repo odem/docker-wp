@@ -14,7 +14,8 @@ usage:
 
 
 build: stop
-	./wordpress/create_proxy.bash
+	./nginx/install.bash
+	./wordpress/install.bash
 
 start: build
 	./wordpress/start.bash
