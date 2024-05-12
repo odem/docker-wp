@@ -18,18 +18,6 @@ else
     echo "File is already present. Please remove first!"
 fi
 
-cat <<EOF > nginx/systemd-nginx.conf
-[Unit]
-Description=nginx starter
-Before=getty@tty1.service
-[Service]
-Type=simple
-ExecStart=/home/wordpress/repo/docker-wp/nginx/start.bash
-ExecStop=/home/wordpress/repo/docker-wp/nginx/stop.bash
-[Install]
-WantedBy=getty.target  
-EOF
-
 cat <<EOF > nginx/nginx.conf
 user www-data;
 worker_processes auto;
@@ -57,7 +45,6 @@ http {
 }
 EOF
 
-
 cat <<EOF > nginx/nginx-wp.conf
 server {
     listen 443 ssl;
@@ -75,4 +62,7 @@ server {
     }
 }
 EOF
+
+cp nginx/nginx.conf /etc/nginx/nginx.conf
+cp nginx/nginx-wp.conf /etc/nginx/sites-available/wp.conf
 

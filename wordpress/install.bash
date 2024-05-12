@@ -16,5 +16,5 @@ ExecStop=/home/wordpress/repo/docker-wp/wordpress/stop.bash
 WantedBy=getty.target
 EOF
 
-
+cp systemd-wp.conf /etc/systemd/system/wordpress.service
 
