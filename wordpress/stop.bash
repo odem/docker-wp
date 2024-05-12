@@ -6,5 +6,5 @@ FOLDER=wordpress
 [ -f "$FOLDER"/.env ] || exit 2
 cd "$FOLDER" || exit 3
 
-docker-compose down
+docker-compose down -f
 
