@@ -49,7 +49,7 @@ cat <<EOF > nginx/nginx-wp.conf
 server {
     listen 80 default_server;
     server_name _;
-    return 301 https://www.\$host\$request_uri;
+    return 301 https://\$host\$request_uri;
 }
 server {
     listen 443 ssl;
