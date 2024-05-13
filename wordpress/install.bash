@@ -7,13 +7,17 @@ docker-compose build
 cat <<EOF > systemd-wp.conf
 [Unit]
 Description=wp starter
-Before=getty@tty1.service
+After=docker.service
+Requires=docker.service
 [Service]
-Type=simple
-ExecStart=/home/wordpress/repo/docker-wp/wordpress/start.bash
-ExecStop=/home/wordpress/repo/docker-wp/wordpress/stop.bash
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=/home/wordpress/repo/docker-wp/wordpress/
+ExecStart=bash -c "docker-compose up -d"
+ExecStop=bash -c "docker-compose down"
+
 [Install]
-WantedBy=getty.target
+WantedBy=multi-user.target
 EOF
 
 sudo cp systemd-wp.conf /etc/systemd/system/wordpress.service
