@@ -58,8 +58,6 @@ server {
     ssl_certificate_key /etc/nginx/ssl/selfsigned.key;
     location / {
         proxy_pass http://hostname.local;
-        proxy_set_header Host \$host;
-        proxy_http_version 1.1;
 	proxy_set_header Host \$http_host;
 	proxy_set_header X-Forwarded-Host \$http_host;
 	proxy_set_header X-Real-IP \$remote_addr;
