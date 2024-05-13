@@ -21,4 +21,6 @@ WantedBy=multi-user.target
 EOF
 
 sudo cp systemd-wp.conf /etc/systemd/system/wordpress.service
+sudo systemctl daemon-reload
+sudo systemctl enable wordpress.service
 
