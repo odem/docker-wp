@@ -18,7 +18,7 @@ build: stop
 	./nginx/install.bash $(DOMAIN)
 	./wordpress/install.bash $(DOMAIN)
 
-start: build
+start: stop
 	./wordpress/start.bash
 
 stop:
