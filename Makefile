@@ -4,6 +4,7 @@ default: start
 
 # Makefile setup
 SHELL:=/bin/bash
+DOMAIN ?= www.dummy.de
 
 # Help
 usage:
@@ -14,8 +15,8 @@ usage:
 
 
 build: stop
-	./nginx/install.bash
-	./wordpress/install.bash
+	./nginx/install.bash $(DOMAIN)
+	./wordpress/install.bash $(DOMAIN)
 
 start: build
 	./wordpress/start.bash

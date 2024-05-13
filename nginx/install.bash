@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ORGUNIT=s29
-CNAME=www.dummy.me
+CNAME=$1
 CERTOPTS="/C=DE/ST=HE/L=FFM/O=WP/OU=$ORGUNIT/CN=$CNAME"
 KEYOUT=nginx/selfsigned.key
 CRTOUT=nginx/selfsigned.crt
@@ -53,11 +53,11 @@ server {
 }
 server {
     listen 443 ssl;
-    server_name hostname.me;
+    server_name $CNAME;
     ssl_certificate /etc/nginx/ssl/selfsigned.crt;
     ssl_certificate_key /etc/nginx/ssl/selfsigned.key;
     location / {
-        proxy_pass http://hostname.local;
+        proxy_pass http://127.0.0.1:8080;
 	proxy_set_header Host \$http_host;
 	proxy_set_header X-Forwarded-Host \$http_host;
 	proxy_set_header X-Real-IP \$remote_addr;
